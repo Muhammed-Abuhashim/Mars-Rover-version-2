@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+    <head>
+	    <title></title>
+	    <link rel="stylesheet" href="./style.css">
+	    <meta charset="UTF-8" />
+    </head>
+
+    <body>
+	    <div  class="Center">
+            <h1 class="caption">Mars Rover Task</h1>
+						<h4>Guidelines: When the rover touches down on Mars, it is initialised with it’scurrent coordinates and the direction it is facing.<br> These could be any coordinates, supplied as arguments (x, y, direction) You can enter it as shown below, and then <br>enter the command and press submit to show you the answers to the first part and the second part </h4>
+						<h4>(Note: Direction Must Begin With A Capital Letter)</h4><br>
+            <label>X : </label>
+            <input type="text"  id="x" class="text2" name="txt" value="">
+            <label>Y : </label>
+            <input type="text"  id="y" class="text3" name="txt" value="">
+            <label>Direction : </label>
+            <input type="text"  id="d" class="text2" name="txt" value="">
+            <br><br>
+            <label>The Command : </label>
+            <input type="text" id="txt"  name="txt" value="">
+            <br><br>
+            <button type="button" onclick="Part1(),Part1_Only()"> Submit </button>
+            <br><br>
+            <label>Part1 Answer : </label>
+            <textarea name="name" id="txt3" rows="1" cols="30"></textarea>
+            <br><br>
+            <label>Part2 Answer : </label>
+            <textarea name="name" id="txt2" rows="1" cols="30"></textarea>
+
+	        <script type="text/javascript">
+
+                // Part1 & Part2
+                function Part1(){
+                    x = parseInt(document.getElementById('x').value)
+                    y = parseInt(document.getElementById('y').value)
+                    var direction = document.getElementById('d').value
+                    var str = document.getElementById('txt').value
+                    var str2 = str.split("")
+                    var len = str2.length
+                    for(let i = 0 ; i<len ; i++){
+                        if(direction === "East" || direction === "West"){
+                            if(str2[i] === 'F'){
+                                let flag =Part2(x,y,direction)
+                                if(flag===1){
+                                    x = inc(x)
+                                    document.getElementById('txt2').innerHTML = '('+x+','+y+')'+direction
+                                }
+                                else {
+                                    document.getElementById('txt2').innerHTML = '('+x+','+y+')'+direction+" STOPPED"
+                                    break;
+                                }
+                            }
+                            else if (str2[i] === 'B'){
+                                let flag =Part2(x,y,direction)
+                                if(flag===1){
+                                    x = dec(x)
+                                    document.getElementById('txt2').innerHTML = '('+x+','+y+')'+direction
+                                }
+                                else {
+                                    document.getElementById('txt2').innerHTML = '('+x+','+y+')'+direction+" STOPPED"
+                                    break;
+                                }
+                            }
+                            else if (str2[i] === 'L' && direction === "West"){
+                                direction = "South"
+                            }
+                            else if (str2[i] === 'R' && direction === "West"){
+                                direction = "North"
+                            }
+                            else if (str2[i] === 'L' && direction === "East"){
+                                direction = "North"
+                            }
+                            else if (str2[i] === 'R' && direction === "East"){
+                                direction = "South"
+                            }
+                        }
+                        else {
+                            if(str2[i] === 'F'){
+                                let flag =Part2(x,y,direction);
+                                if(flag===1){
+                                    y = inc(y)
+                                    document.getElementById('txt2').innerHTML = '('+x+','+y+')'+direction
+                                }
+                                else {
+                                    document.getElementById('txt2').innerHTML = '('+x+','+y+')'+direction+" STOPPED"
+                                    break;
+                                }
+                            }
+                            else if (str2[i] === 'B'){
+                                let flag =Part2(x,y,direction)
+                                if(flag===1){
+                                    y = dec(y)
+                                    document.getElementById('txt2').innerHTML = '('+x+','+y+')'+direction
+                                }
+                                else {
+                                    document.getElementById('txt2').innerHTML = '('+x+','+y+')'+direction+" STOPPED"
+                                    break;
+                                }
+                            }
+                            else if (str2[i] === 'L' && direction === "North"){
+                                direction = "West"
+                            }
+                            else if (str2[i] === 'R' && direction === "North"){
+                                direction = "East"
+                            }
+                            else if (str2[i] === 'L' && direction === "South"){
+                                direction = "East"
+                            }
+                            else if (str2[i] === 'R' && direction === "South"){
+                                direction = "West"
+                            }
+                        }
+                    }
+                }
+
+                // increment function
+                function inc(coordinates){
+                    return coordinates+1
+                }
+
+                // decrement function
+                function dec(coordinates){
+                    return coordinates -1
+                }
+
+                // Part2
+                function Part2(x,y,direction){
+                    var obstacles = [{x:1, y:4}, {x:3, y:5}, {x:7, y:4}]
+                    for(let i = 0 ; i<obstacles.length ; i++){
+                        if(Math.abs(x-obstacles[i].x) > 1 &&  Math.abs(y-obstacles[i].y) > 1){
+                                console.log("done")
+                        }
+                        else {
+                            return 0
+                        }
+                    }
+                    return 1
+                }
+
+								// TEST CASE1 ---> INPUT : FLFFFRFLB  						East 			 x=4  	y=2 ,		 			OUTPUT : North   		x=6  y=4
+                // TEST CASE2 ---> INPUT : BRFBFLFRF  					East    		x=4 	 y=2 , 				OUTPUT : South    	  x=4  y=4
+                // TEST CASE3 ---> INPUT : FFRFFFLFLF  				East    		x=4 	 y=2 , 				OUTPUT : North    		x=7  y=6
+                // TEST CASE4 ---> INPUT : FFRFF  									East    		x=10 	 y=10 , 		OUTPUT : South 	   		x=12  y=12
+                // TEST CASE5 ---> INPUT : FFRFF 									 East    			x=6 	 y=10 , 		OUTPUT : South    		x=8  y=12
+
+                // Part1
+                function Part1_Only(){
+                    x_p1 = parseInt(document.getElementById('x').value)
+                    y_p1 = parseInt(document.getElementById('y').value)
+                    var direction_p1 = document.getElementById('d').value
+                    var str_p1 = document.getElementById('txt').value
+                    var str2_p1 = str_p1.split("")
+                    var len_p1 = str2_p1.length
+                    for(let i = 0 ; i<len_p1; i++){
+                        if(direction_p1 === "East" || direction_p1 === "West"){
+                            if(str2_p1[i] === "F"){
+                                x_p1 = inc(x_p1)
+                            }
+                            else if (str2_p1[i] === "B") {
+                                x_p1 = dec(x_p1)
+                            }
+                            else if (str2_p1[i] === 'L' && direction_p1 === "West"){
+                                direction_p1 = "South"
+                            }
+                            else if (str2_p1[i] === 'R' && direction_p1 === "West"){
+                                direction_p1 = "North"
+                            }
+                            else if (str2_p1[i] === 'L' && direction_p1 === "East"){
+                                direction_p1 = "North"
+                            }
+                            else if (str2_p1[i] === 'R' && direction_p1 === "East"){
+                                direction_p1 = "South"
+                            }
+                        }
+                        else {
+                            if (str2_p1[i] === "F"){
+                                y_p1 = inc(y_p1)
+                            }
+                            else if (str2_p1[i] ==="B"){
+                                y_p1 = dec(y_p1)
+                            }
+                            else if (str2_p1[i] === 'L' && direction_p1 === "North"){
+                                direction_p1 = "West"
+                            }
+                            else if (str2_p1[i] === 'R' && direction_p1 === "North"){
+                                direction_p1 = "East"
+                            }
+                            else if (str2_p1[i] === 'L' && direction_p1 === "South"){
+                                direction_p1 = "East"
+                            }
+                            else if (str2_p1[i] === 'R' && direction_p1 === "South"){
+                                direction_p1 = "West"
+                            }
+                        }
+                    }
+                    document.getElementById('txt3').innerHTML = '('+x_p1+','+y_p1+')'+direction_p1
+                }
+	        </script>
+	    </div>
+    </body>
+</html>
